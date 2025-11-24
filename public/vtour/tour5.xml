@@ -1,0 +1,131 @@
+<krpano version="1.23" title="Virtual Tour">
+    <include url="skin/vtourskin.xml"/>
+	<include url="%VIEWER%/plugins/iphone_fullscreen_swipe.xml" />
+	<include url="%VIEWER%/plugins/controls3d.xml" />
+	<include url="%VIEWER%/plugins/cursor3d.xml" />
+	<plugin api="threejs" keep="true"
+        url="%VIEWER%/plugins/threejs_krpanoplugin.js"
+        useembeddedthreejs="true"
+        integratedrendering="true"
+        es6modules="false"
+        adjustlightfalloff="true"
+        cache="true"
+        onready=""
+        />
+	
+	<!-- <threejs shadowmap="pcf"
+         textureanisotropy="true"
+         tonemapping="no"
+         exposure="1.0"
+         ambientlight="1.0"
+         ambientcolor="0xFFFFFF"
+         ambientcolortemperature="0"
+         shadowfloor="false"
+         shadowfloorlevel="148"
+         shadowflooralpha="0.5"
+         envmapurl=""
+         raycastcheck="hotspots"
+         /> -->
+	<!-- background music -->
+	<!-- <plugin url="%VIEWER%/plugins/soundinterface.js" keep="true"
+		onloaded="playsound(bg, '%CURRENTXML%/sounds/bells.mp3', true, 0.3);"
+		/> -->
+
+	<!-- default depthmap rendering mode -->
+	<control groundcollision="true" />
+    <control depthscale="0" />
+    <!-- <control collision="true" groundcollision="true" usevrfloorlevel="true" /> -->
+
+	<!-- Enable 3D controls -->
+    <controls3d
+    mode="firstperson"
+    collisions="true"
+    flying="false"
+    movespeed="0.4"
+    movespeedfast="1.2"
+    rotationdamping="0.05"
+    />
+
+<!--  customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ...  -->
+<skin_settings maps="true" maps_type="openstreetmaps" maps_bing_api_key="" maps_google_api_key="" maps_zoombuttons="false" maps_loadonfirstuse="true" gyro="true" gyro_keeplookingdirection="false" webvr="false" webvr_keeplookingdirection="true" webvr_prev_next_hotspots="true" autotour="false" littleplanetintro="false" followmousecontrol="false" title="true" thumbs="true" thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160" thumbs_opened="false" thumbs_text="false" thumbs_dragging="true" thumbs_onhoverscrolling="false" thumbs_scrollbuttons="false" thumbs_scrollindicator="false" thumbs_loop="false" tooltips_buttons="false" tooltips_thumbs="false" tooltips_hotspots="false" tooltips_mapspots="false" deeplinking="false" loadscene_flags="MERGE" loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)" loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)" loadscene_blend_next="SLIDEBLEND(0.5, 0, 0.75, linear)" loadingtext="" layout_width="100%" layout_maxwidth="814" controlbar_width="-24" controlbar_height="40" controlbar_offset="20" controlbar_offset_closed="-40" controlbar_overlap.no-fractionalscaling="10" controlbar_overlap.fractionalscaling="0" design_skin_images="vtourskin.png" design_bgcolor="0x2D3E50" design_bgalpha="0.8" design_bgborder="0" design_bgroundedge="1" design_bgshadow="0 4 10 0x000000 0.3" design_thumbborder_bgborder="3 0xFFFFFF 1.0" design_thumbborder_padding="2" design_thumbborder_bgroundedge="0" design_text_css="color:#FFFFFF; font-family:Arial;" design_text_shadow="1"/>
+
+ <include url="skin/vtourskin_design_flat_light.xml"  /> 
+
+	<!-- <action name="soldier_onclick" type="js"><![CDATA[
+		var nextani = null;
+		while(1)
+		{
+			nextani = caller.animations.getItem( Math.floor( caller.animations.count * Math.random() ) );
+			console.log("nextani="+nextani.name);
+			if (nextani && nextani.name != "idle" && nextani != caller.activeanimation)
+				break;
+		}
+		nextani.speed = 0.3;
+		nextani.play("once", 2.0, true, function()
+		{
+            caller.model.resettransform();
+			caller.animations.getItem("idle").play("repeat", 0.3, true);
+		});
+	]]></action> -->
+
+<scene name="scene_015" title="015" >
+    <!-- <control bouncinglimits="calc:image.cube ? true : false"/> -->
+    <!-- <display depthmaprendermode="off" />
+    <control 
+        bouncinglimits="true"
+        limitview="lookat"
+        collision="true"
+        moveinlimit="50"
+    /> -->
+   <!-- <view 
+    hlookat="0" 
+    vlookat="0" 
+    fov="100"
+    fovmin="70"
+    fovmax="120"
+    limitview="fullrange"
+   /> -->
+   <!-- <view 
+   hlookat="0"
+   vlookat="0"
+   fov="100"
+   hlookatmin="-140"
+   hlookatmax="140"
+   vlookatmin="-70"
+   vlookatmax="70"
+   />
+    <preview url="panos/015.tiles/preview.jpg"/> -->
+    <threejs envmapurl="preview" />
+    <image objectsize="infinity">
+       <cube url="panos/015.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/>
+	   <!-- <model url="%CURRENTXML%/../Islands.obj" scale="100" hittest="true" /> -->
+    </image>
+
+   <hotspot name="light"
+		type="threejslight"
+		mode="sun"
+		ath="180.0"
+		atv="-60.0"
+		colortemperature="6500"
+		intensity="1.0"
+		castshadow="true"
+		shadowmapres="2048"
+		/>
+	
+	<hotspot name="soldier"
+		type="threejs"
+		url="../woman.glb"
+		 depth="0"
+		 scale="0.015"
+         tx="0"
+         ty="170"
+         tz="300"   
+		 visible="true"
+         enabled="true"
+         capture="true"
+         onloaded="animations['Take 001'].play('repeat', 0.3, true);"
+		onclick="animations['Take 001'].play('repeat', 0.3, true);"
+		/>
+	
+</scene>
+</krpano>

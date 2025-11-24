@@ -1,0 +1,116 @@
+<krpano version="1.22">
+    <!-- <plugin url="editor.swf" keep="true" /> -->
+  	<include url="%VIEWER%/plugins/showtext.xml" />
+    <include url="%VIEWER%/plugins/contextmenu.xml" />
+
+	<!-- load the first scene on startup -->
+	<action name="startup" autorun="onstart">
+		loadscene(scene_05, null, MERGE);
+	</action>
+	
+	<action name="scene3dtransition" scope="local" args="scenename, hlookatoffset">
+        transitiontime = 1;
+        transitiontweentype = "easeinoutexpo";
+		loadscene(get(scenename), null, MERGE|PRELOAD, BLEND(get(transitiontime),get(transitiontweentype)));
+	</action>
+	
+	<!-- pagedown/pageup keys -->
+	<events onkeydown="if(keycode == 33, nextscene(-1),
+	                      keycode == 34, nextscene(+1)
+	                     );"
+                 />
+
+	<action name="nextscene" scope="local" args="add_to_index">
+		new_scene_index = scene[*xml.scene].index + add_to_index;
+		if(new_scene_index GE scene.count, new_scene_index = 0;
+		  ,new_scene_index LT 0, new_scene_index = scene.count-1;
+		);
+		loadscene(*new_scene_index, null, MERGE|KEEPVIEW, BLEND(0.5));
+	</action>
+
+	<!-- hotspot animation code -->
+	<action name="hotspot_animate">
+		if(loaded,
+			inc(frame,1,get(frames),0);
+			mul(ypos,frame,frameheight);
+			txtadd(crop,'0|',get(ypos),'|',get(framewidth),'|',get(frameheight));
+			delayedcall(0.1, hotspot_animate() );
+		);
+	</action>
+
+	<!-- hotspot styles (black and white hotspots) -->
+	<style name="hotspot_ani_black"
+	       url="skin/hotspot_ani_black.png"
+	       crop="0|0|64|64"
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+	       onloaded="hotspot_animate();"
+	       />
+
+	<style name="hotspot_ani_white"
+	       url="skin/hotspot_ani_white.png"
+	       crop="0|0|64|64"
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+	       onloaded="hotspot_animate();"
+	       />
+    <!-- Style for polygon highlight -->
+    <style name="highlight_shape"
+         fillcolor="0x00FF00"
+         fillalpha="0.3"
+         bordercolor="0x00FF00"
+         borderalpha="0.9"
+         borderwidth="2"
+         onover="set(fillalpha, 0.0); set(bordercolor, 0xFF0000);" 
+         onout="set(fillalpha, 0.3); set(bordercolor, 0x00FF00);" 
+         />
+    <events onstart="startup();" />
+
+<scene name="scene_05" title="First screen"  lat="24.68769445" lng="46.68352778" alt="571.80" heading="0.0">
+  <!-- ONE view only -->
+  <view hlookat="202.65" vlookat="8.12" fov="105.5" maxpixelzoom="2.0" fovmin="60" fovmax="120" />
+  <image>
+    <preview url="panos/05.tiles/preview.jpg" />
+    <cube url="panos/05.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+  </image>
+  <!-- normal hotspots -->
+  <hotspot name="spot1" style="hotspot_ani_white" ath="2.56" atv="10.54" depth="900" prealign="true" onclick="scene3dtransition(scene_09);" />
+  <hotspot name="spot2" style="hotspot_ani_white" ath="154.20" atv="1.22" depth="1000" prealign="true" onclick="scene3dtransition(scene_07);" />
+
+</scene> 
+
+<scene name="scene_07" title="Second screen"  thumburl="panos/07.tiles/thumb.jpg" lat="24.68738888" lng="46.68363888" alt="603.10" heading="0.0">
+   <view hlookat="-151.42" vlookat="4.18" fov="99.5" maxpixelzoom="2.0" fovmin="60" fovmax="120" />
+   <image>
+       <preview url="panos/07.tiles/preview.jpg"/>
+       <cube url="panos/07.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/>
+    </image>
+    <hotspot name="videospot"
+	         url="%VIEWER%/plugins/videoplayer.js"
+	         videourl="videos/flower.mp4"
+	         posterurl="videos/tree.png"
+	         distorted="true"
+	         ath="60"
+	         atv="0"
+			 width="80"
+             height="50"
+	         scale="1.0"	        
+	         loop="true"
+			 muted="true"
+	         pausedonstart="false"
+	         onclick="togglepause();"
+    />
+    <hotspot name="spot1" style="hotspot_ani_white" ath="234.00" atv="0.00" depth="600" prealign="true" onclick="scene3dtransition(scene_05);" />
+</scene>
+
+<scene name="scene_09" title="Third screen"  thumburl="panos/09.tiles/thumb.jpg" lat="24.68775000" lng="46.68338888" alt="595.30" heading="0.0">
+     <view hlookat="-99.5" vlookat="21.1" fov="99.5" maxpixelzoom="2.0" fovmin="60" fovmax="120" />
+     <image>
+        <preview url="panos/09.tiles/preview.jpg"/>
+        <cube url="panos/09.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/>
+     </image>
+	<hotspot name="spot1" style="hotspot_ani_white" ath="269.92" atv="10.91" depth="600" prealign="true" onclick="scene3dtransition(scene_05);" />
+	<hotspot name="spot2" style="hotspot_ani_white" ath="254.27" atv="-1.025" depth="1000" prealign="true" onclick="scene3dtransition(scene_07);" />
+</scene>
+
+<plugin name="soundinterface" keep="true" url="%VIEWER%/plugins/soundinterface.js" preload="true" rootpath="" volume="1.0" mute="false" panningmodel="simple" worldscale="1.0" autopause="true" autounlock="true"/>
+
+</krpano>   

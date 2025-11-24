@@ -1,0 +1,31 @@
+.buttonBar {
+  position: fixed;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10000;
+}
+
+.roundButton {
+  background-color: #0aa94d;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.roundButton:hover {
+  transform: scale(1.1);
+}
+
+.roundButton img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}

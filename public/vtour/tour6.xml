@@ -1,0 +1,83 @@
+<krpano version="1.22">
+
+	<include url="%VIEWER%/plugins/iphone_fullscreen_swipe.xml" />
+	<include url="%VIEWER%/plugins/webvr.xml" />
+	<include url="%VIEWER%/plugins/controls3d.xml" />
+	<include url="%VIEWER%/plugins/depthmap_navigation.xml" />
+	<include url="%VIEWER%/plugins/cursor3d.xml" />
+	
+	<control joypad="false" levelcontrol="false" />
+	<display depthmaprendermode="depthmap"  />
+    <display depthbuffer="true" />
+	<autorotate enabled="true" speed="0.1" />
+
+	<cursor3d
+    enabled="true"
+    vrsupport="true"
+    url="skin/snowflake.png"
+    size="20"
+    scale="1.0"
+    distancescale="0.0"
+    color="0xFFFFFF"
+    alpha="0.5"
+    border="1 0xFFFFFF 1.0"
+    normalcolor="0xFFFFFF"
+    normalalpha="1.0"
+    normallinewidth="3"
+    normallength="20"
+    onclick=""
+    ondoubleclick="cursor3d_movetohit()"
+    />
+
+	<threejs raycastcheck="depthmap" />
+	
+	<!-- overwrite/redesign the default Enter VR button -->
+	<!-- <layer name="webvr_enterbutton" keep="true"
+		url="icon_vr.png" scale="0.5" alpha="1.0" align="leftbottom" x="18" y="18"
+		onclick.addevent="set(display.anaglyph,false);"
+		/>
+	
+	<layer name="toggle_anaglyph_mode" keep="true"
+		url="icon_anaglyph.png" scale="0.5" align="leftbottom" x="18" y="53"
+		onclick="switch(display.anaglyph);"
+		/> -->
+	<style name="hotspot_ani_white"
+	       url="skin/hotspot_ani_white.png"
+	       crop="0|0|64|64"
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+	       onloaded="hotspot_animate();"
+	       />
+
+    	<!-- hotspot animation code -->
+	<action name="hotspot_animate">
+		if(loaded,
+			inc(frame,1,get(frames),0);
+			mul(ypos,frame,frameheight);
+			txtadd(crop,'0|',get(ypos),'|',get(framewidth),'|',get(frameheight));
+			delayedcall(0.03, hotspot_animate() );
+		);
+	</action>
+
+	<image>
+		<sphere   url="skin/habitacio_01.jpg" />
+		<depthmap url="skin/habitacio_01_depthmap.jpg" enabled="true" mapmode="1" scale="0.5" offset="0.293" curve="1.0" />
+	</image>
+
+	<hotspot name="videospot"
+	         url="%VIEWER%/plugins/videoplayer.js"
+	         videourl="videos/flower.mp4"
+	         posterurl="videos/tree.png"
+	         distorted="true"
+	         ath="80"
+	         atv="0"
+			 width="80"
+             height="50"
+	         scale="1.0"	        
+	         loop="true"
+			 muted="true"
+	         pausedonstart="false"
+	         onclick="togglepause();"
+    />
+	<cursor3d enabled="true" />
+
+</krpano>

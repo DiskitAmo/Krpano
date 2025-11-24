@@ -1,0 +1,284 @@
+﻿<krpano version="1.23" title="Virtual Tour">
+
+	<include url="skin/vtourskin.xml" />
+
+     <style name="roomspot" alpha="0.0" capture="false" 
+		onloaded="addspottext(get(tooltip));"
+		/>
+	 <style name="hotspot_ani_white"
+	       url="skin/hotspot_ani_white.png"
+	       crop="0|0|64|64"
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+	       onloaded="hotspot_animate();"
+	       />
+	 <style name="roomspottext" 
+		enabled="false"
+		distorted="true"
+		bg="false"
+		css="font-size:28px; font-weight:bold; color:#FFFFFF;"
+		scale="0.5"
+		txtshadow="0 1 10 0x000000 0.7"
+		renderer="webgl"
+		oversampling="2"
+		mipmapping="true"
+		/>
+	
+	 <action name="change_text">
+          set(layer[mytext].html, 'You clicked here!');
+     </action>
+	 <action name="intro_load">
+		  delayedcall(0.5,
+           tween(layer[skin_logo_2].alpha, 1);
+		   <!-- tween(layer[mytext1].alpha, 1);
+		   tween(layer[mytext].alpha, 1); -->
+		  ) 
+         <!-- add hotspot text -->
+     </action>
+	 <action name="addspottext" scope="local" args="text">
+		addhotspot(calc(caller.name + '_text'),hs);
+		set(hs, type=text, text=get(text));
+		hs.loadstyle(roomspottext);
+		p = caller.getcenter();
+		hs.ath = p.x;
+		hs.atv = p.y;
+		hs.onclick = caller.onclick;
+		hs.enabled = webvr AND webvr.isenabled ? true : false;
+		caller.enabled = !hs.enabled;
+	 </action>
+	  <!-- add hotspot animation -->
+	 <action name="hotspot_animate">
+		if(loaded,
+			inc(frame,1,get(frames),0);
+			mul(ypos,frame,frameheight);
+			txtadd(crop,'0|',get(ypos),'|',get(framewidth),'|',get(frameheight));
+			delayedcall(0.1, hotspot_animate() );
+		  );
+	</action>
+	<action name="scene3dtransition" scope="local" args="scenename, hlookatoffset">
+        transitiontime = 1;
+        transitiontweentype = "easeinoutexpo";
+		loadscene(get(scenename), null, MERGE|PRELOAD, BLEND(get(transitiontime),get(transitiontweentype)));
+	</action>
+
+	<!-- show the xml code of the hotspot position -->
+	<action name="print_hotspot_pos"><![CDATA[
+		copy(print_ath, ath);
+		copy(print_atv, atv);
+		roundval(print_ath, 3);
+		roundval(print_atv, 3);
+		calc(plugin[hotspot_pos_info].html, '&lt;hotspot name="' + name + '"[br]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...[br]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ath="' + print_ath + '"[br]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atv="' + print_atv + '"[br]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...[br]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;');
+	]]></action>
+
+	<action name="togglelayer">
+       if(layer[%1].visible,
+        set(layer[%1].visible,false);
+          ,
+        set(layer[%1].visible,true);
+       );
+    </action>
+
+	<layer name="poly_text"
+       keep="true"
+       type="text"
+       html="Tower Area"
+       visible="false"
+       bg="true"
+       bgalpha="0.7"
+       bgcolor="0x000000"
+       css="padding:5px; color:#ffffff; font-size:16px;"
+       align="center"
+       y="-100"
+	   x="-60"
+       />
+	<layer name="poly_text2"
+       keep="true"
+       type="text"
+       html="Theater Area"
+       visible="false"
+       bg="true"
+       bgalpha="0.7"
+       bgcolor="0x000000"
+       css="padding:5px; color:#ffffff; font-size:16px;"
+       align="center"
+       y="-160"
+	   x="-60"
+       />
+
+<!-- <layer  name="skin_logo_2" enabled="true" keep="true" url="skin/logo.png" scale="0.1" align="topleft" y="10" x="10"/> -->
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="true"
+	               maps_type="openstreetmaps"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="false"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="true"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="BLEND(1.5, easeInCubic)"
+	               loadscene_blend_prev="ZOOMBLEND(2.0, 2.0, easeInOutSine)"
+	               loadscene_blend_next="ZOOMBLEND(2.0, 2.0, easeInOutSine)"
+	               loadingtext=""
+	               layout_width="100%" 
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<include url="skin/vtourskin_design_flat_light.xml"  />
+	
+	<scene name="scene_001" title="Main gate" onstart="" thumburl="panos/001.tiles/thumb.jpg" lat="24.68761956" lng="46.68387872" alt="678.45" heading="0.0">
+		<view hlookat="202.65" vlookat="8.12" fov="105.5" maxpixelzoom="2.0" fovmin="60" fovmax="120" />
+		<preview url="panos/001.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/001.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+		<hotspot name="spot2" style="hotspot_ani_white" ath="-0.822" atv="23.971" depth="1000" prealign="true" onclick="scene3dtransition(scene_03);" />
+		   <!-- polygon hotspot (explicit type, visible fillalpha) -->
+        <hotspot name="polygon_area"
+           tag="polygon"
+           fillcolor="0x00aa33"
+           fillalpha="0.35"
+           bordercolor="0x00aa33"
+           borderwidth="2"
+           onover="tween(fillalpha,0,0.25); set(bordercolor,0xff0000); set(layer[poly_text].visible, true);"
+           onout="tween(fillalpha,0.35,0.25); set(bordercolor,0x00aa33); set(layer[poly_text].visible, false);"
+           onclick="showtext('Area clicked');"
+           >
+           <point ath="138.8" atv="-40" />
+           <point ath="132.5" atv="-7" />
+           <point ath="143" atv="-7" />           
+        </hotspot>
+		<hotspot name="polygon_area2"
+           tag="polygon"
+           fillcolor="0x00aa33"
+           fillalpha="0.35"
+           bordercolor="0x00aa33"
+           borderwidth="2"
+           onover="tween(fillalpha,0,0.25); set(bordercolor,0xff0000); set(layer[poly_text2].visible, true);"
+           onout="tween(fillalpha,0.35,0.25); set(bordercolor,0x00aa33); set(layer[poly_text2].visible, false);"
+           onclick="showtext('Area clicked');"
+           >
+           <point ath="203" atv="-16" />
+            <point ath="211" atv="-17" />
+			<point ath="211" atv="-1" />   
+            <point ath="203" atv="-1" />               
+        </hotspot>
+	</scene>
+
+	<scene name="scene_004" title="Cabin2" onstart="" thumburl="panos/004.tiles/thumb.jpg" lat="24.68766667" lng="46.68344445" alt="599.50" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/004.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/004.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+        <hotspot name="spot2" style="hotspot_ani_white" ath="-0.822" atv="10.971" depth="1000" prealign="true" onclick="scene3dtransition(scene_04);" />
+	</scene>
+
+	<scene name="scene_01" title="Car parking" onstart="" thumburl="panos/01.tiles/thumb.jpg" lat="24.68780555" lng="46.68341667" alt="597.30" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/01.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/01.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+		<hotspot name="spot2" style="hotspot_ani_white" ath="-0.822" atv="0.971" depth="1000" prealign="true" onclick="scene3dtransition(scene_03);" />
+		   <!-- polygon hotspot (explicit type, visible fillalpha) -->
+
+	</scene>
+
+	<scene name="scene_02" title="Surroundings" onstart="" thumburl="panos/02.tiles/thumb.jpg" lat="24.68777778" lng="46.68313888" alt="599.40" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/02.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/02.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+         <hotspot name="spot2" style="hotspot_ani_white" ath="-0.822" atv="0.971" depth="1000" prealign="true" onclick="scene3dtransition(scene_04);" />
+		   <!-- polygon hotspot (explicit type, visible fillalpha) -->
+
+	</scene>
+
+	<scene name="scene_03" title="Lobby" onstart="" thumburl="panos/03.tiles/thumb.jpg" lat="24.68769445" lng="46.68344445" alt="614.10" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/03.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/03.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+		<hotspot name="spot2" style="hotspot_ani_white" ath="-164.239" atv="15.347" depth="1000" prealign="true" onclick="scene3dtransition(scene_02);" />
+
+	</scene>
+
+	<scene name="scene_04" title="cabin1" onstart="" thumburl="panos/04.tiles/thumb.jpg" lat="24.68769445" lng="46.68344445" alt="630.40" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/04.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/04.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+		<hotspot name="spot2" style="hotspot_ani_white" ath="-0.822" atv="10.971" depth="1000" prealign="true" onclick="scene3dtransition(scene_001);" />
+		<hotspot name="videospot"
+	         url="%VIEWER%/plugins/videoplayer.js"
+	         videourl="videos/flower.mp4"
+	         posterurl="videos/tree.png"
+	         distorted="true"
+	         ath="-90.822" atv="-8.71"
+			 width="120"
+             height="80"
+	         scale="1.0"	        
+	         loop="true"
+			 muted="true"
+	         pausedonstart="false"
+	         onclick="togglepause();"
+        />
+	</scene>
+
+</krpano>

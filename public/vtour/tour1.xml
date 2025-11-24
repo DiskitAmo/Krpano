@@ -1,0 +1,230 @@
+﻿<krpano version="1.23" title="Virtual Tour">
+
+	<include url="skin/vtourskin.xml" />
+	<plugin api="gyro" keep="true"
+        url="%VIEWER%/plugins/gyro2.js" 
+        enabled="false"
+        camroll="true"
+        absolute="false"
+        north="0"
+        friction="0.0"
+        touch_mode="full"
+        sensor="1"
+        sensor_mode="1"
+        softstart="0.5"
+        autocalibration="false"
+        desktopsupport="false"
+        onavailable=""
+        onunavailable=""
+        onenable=""
+        ondisable=""
+        ondenied=""
+        />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="false"
+	               maps_type="openstreetmaps"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="false"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="false"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> 
+	 onover="tween(scale,0.7,0.2);"
+         onout="tween(scale,0.5,0.2);" 
+	-->
+
+	<!-- Common style for buttons -->
+    <!-- <style name="button_style"
+         type="container"
+         width="50"
+         height="50"
+         bgcolor="0x0AA94D"
+         bgalpha="0.9"
+         roundedge="25"
+         padding="10"
+         handcursor="true"
+		 keep="true"
+		 zorder="99999999" 
+		 /> -->
+
+    <!-- 
+	<layer name="button_bar"
+	   type="container"
+       keep="true"
+	   capture="true"
+	   enabled="true"
+       align="leftmiddle"
+	   bgcolor="0x000000"
+       bgalpha="0.7"
+	   roundedge="10"
+       padding="10"
+       x="80"
+       width="80"
+       height="400"
+	   zorder="99999999" 
+	   visible="false"
+	   y="0"
+	   >
+
+	  <layer name="btn1"   enabled="true" style="button_style" y="0" onclick="trace('Button 1 clicked - opening iframe');">
+        <layer name="btn1_icon" url="skin/book.png" align="center" width="40" height="40" />
+      </layer>
+
+    
+       <layer name="btn2"   enabled="true" style="button_style" y="90" onclick="trace('Button 2 clicked - opening iframe');">
+         <layer name="btn2_icon" url="skin/gallery.png" align="center" width="40" height="40" />
+       </layer>
+
+       <layer name="btn3" style="button_style" y="180" onclick="open_image('images/photo1.jpg');">
+         <layer name="btn3_icon" url="skin/avatar.png" align="center" width="40" height="40" />
+       </layer>
+
+      
+       <layer name="btn4" style="button_style" y="270" onclick="open_iframe('https://www.youtube.com/embed/M7lc1UVf-VE');">
+         <layer name="btn4_icon" url="skin/info.png" align="center" width="40" height="40" />
+       </layer>
+
+      
+       <layer name="btn5" style="button_style" y="360" onclick="open_image('images/photo2.jpg');">
+         <layer name="btn5_icon" url="skin/message.png" align="center" width="40" height="40" />
+       </layer>
+    </layer> 
+	 <action name="open_iframe">
+    addlayer(iframe_layer);
+    set(layer[iframe_layer].type, text);
+    set(layer[iframe_layer].align, center);
+    set(layer[iframe_layer].bgcolor, 0x000000);
+    set(layer[iframe_layer].bgalpha, 0.8);
+    set(layer[iframe_layer].zorder, 10000);
+    set(layer[iframe_layer].visible, true);
+    set(layer[iframe_layer].html, escape('<iframe src="%1" width="90%" height="80%" style="border:none;border-radius:10px;"></iframe>'));
+    tween(layer[iframe_layer].alpha, 1, 0.5, easeInOutQuad);
+  </action> 
+
+  <action name="open_image">
+  addlayer(image_layer);
+  set(layer[image_layer].url, '%1');
+  set(layer[image_layer].align, center);
+  set(layer[image_layer].scale, 0);
+  set(layer[image_layer].zorder, 10000);
+  tween(layer[image_layer].scale, 1, 0.3, easeOutBack);
+  </action> 
+  -->
+
+   <!-- button to toggle gyro -->
+    <layer name="gyro_btn" type="text"
+           html="Enable Gyro"
+           align="rightbottom" x="10" y="10"
+           width="120" height="40"
+           bgcolor="0x007A33" bgalpha="0.8"
+           css="color:#fff; text-align:center; line-height:40px; border-radius:6px;"
+           onclick="toggle_gyro();"
+           />
+
+    <!-- action to toggle -->
+    <action name="toggle_gyro">
+        if(plugin[gyro2].enabled,
+            set(plugin[gyro2].enabled, false);
+            set(layer[gyro_btn].html, 'Enable Gyro');
+          ,
+            set(plugin[gyro2].enabled, true);
+            set(layer[gyro_btn].html, 'Disable Gyro');
+        );
+    </action>
+
+	  <!-- auto-enable gyro on mobile -->
+    <action name="startup" autorun="onstart">
+        if(device.mobile, delayedcall(0.5, set(plugin[gyro2].enabled,true); set(layer[gyro_btn].html,'Disable Gyro');));
+    </action>
+
+	<scene name="scene_005" title="05" onstart="" thumburl="panos/005.tiles/thumb.jpg" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/005.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/005.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+	</scene>
+
+	<scene name="scene_06" title="06" onstart="" thumburl="panos/06.tiles/thumb.jpg" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/06.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/06.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+	</scene>
+
+	<scene name="scene_007" title="07" onstart="" thumburl="panos/007.tiles/thumb.jpg" lat="24.68763888" lng="46.68366667" alt="628.80" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<preview url="panos/007.tiles/preview.jpg" />
+		<image>
+			<cube url="panos/007.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+	</scene>
+
+
+</krpano>

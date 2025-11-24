@@ -1,0 +1,300 @@
+<krpano version="1.21" title="Virtual Tour" >
+
+    <include url="floor2.xml" />
+    <!-- <include url="floor1.xml" /> -->
+    <plugin api="soundinterface"
+        url="%VIEWER%/plugins/soundinterface.js"
+        preload="true"
+        rootpath="%CURRENTXML%"
+        volume="0.1"
+        mute="false"
+        panningmodel="simple"
+        worldscale="1.0"
+        autopause="true"
+        autounlock="true"
+        />
+  
+    <!--  MAIN MENU CONTAINER  -->
+    <layer name="menu_container"
+         type="container"
+         width="300"
+         width.mobile="80%"
+         height="100%"
+         align="rightmiddle"
+         bgcolor="0x000000"
+         bgalpha="0.6"
+         roundedge="10"
+         padding="10"
+         keep="true"
+         visible="false"
+         x="-100%"
+         y="0"
+         zorder="9999"
+         >
+
+    <!-- Title -->
+    <layer name="menu_title"
+           type="text"
+           html="Select Floor"
+           align="topcenter"
+           y="20"
+           y.mobile="50"
+           bgcolor="0x000000"
+           bgalpha="0"
+           css="font-size:20px; font-weight:bold; color:#fff;"
+           enabled="false" />
+
+    <!--  FLOOR BUTTONS  -->
+    <layer name="floor_buttons" type="container" width="100%" align="topcenter" y="60">
+
+      <layer name="floor1_btn" type="text"
+             html="Floor 1"
+             width="80%" height="40" y="50" align="center"             
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="toggleScenes('floor1');" />
+
+      <layer name="floor2_btn" type="text"
+             html="Floor 2"
+             width="80%" height="40" y="120"  align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="toggleScenes('floor2');" />
+    </layer>
+
+    <!--  FLOOR 1 SCENE BUTTONS  -->
+    <layer name="floor1_scenes"
+           type="container"
+           width="100%"
+           align="topcenter"
+           y="60"
+           visible="false">
+
+      <layer name="f1_scene1" type="text"
+             html="Floor 1 - Scene 1"
+             width="80%" height="40" y="50"  align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33; "
+             onclick="loadscene('scene_05', null, MERGE, BLEND(1));" />
+
+      <layer name="f1_scene2" type="text" 
+             html="Floor 1 - Scene 2"
+             width="80%" height="40" y="130" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33; "
+             onclick="loadscene('scene_07', null, MERGE, BLEND(1));" />
+
+      <layer name="f1_scene3" type="text" 
+             html="Floor 1 - Scene 3"
+             width="80%" height="40" y="200" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33; "
+             onclick="loadscene('scene_09', null, MERGE, BLEND(1));" />
+
+      <layer name="back_btn_f1" type="text"
+             html="Back"
+             width="80%" height="40" y="290" align="center"
+             css="font-size:16px; color:#007A33; text-align:center; line-height:40px; background:#fff; "
+             onclick="toggleBack();" />
+    </layer>
+
+    <!-- FLOOR 2 SCENE BUTTONS  -->
+    <layer name="floor2_scenes"
+           type="container"
+           width="100%"
+           align="topcenter"
+           y="60"
+           visible="false">
+
+      <layer name="f2_scene1" type="text"
+             html="Floor 2 - Scene 1"
+             width="80%" height="40" y="40"  align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_001', null, MERGE, BLEND(1)); sound1click()" />
+
+      <layer name="f2_scene2" type="text"
+             html="Floor 2 - Scene 2"
+             width="80%" height="40" y="100" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_004', null, MERGE, BLEND(1));stop_all_sounds(); set(layer[mute_bg].visible, false); " />
+
+      <layer name="f2_scene3" type="text"
+             html="Floor 2 - Scene 3"
+             width="80%" height="40" y="160" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_01', null, MERGE, BLEND(1)); sound2click();" />
+
+      <layer name="f2_scene4" type="text"
+             html="Floor 2 - Scene 4"
+             width="80%" height="40" y="220" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_02', null, MERGE, BLEND(1));stop_all_sounds(); set(layer[mute_bg].visible, false);" />
+
+      <layer name="f2_scene5" type="text"
+             html="Floor 2 - Scene 5"
+             width="80%" height="40" y="280" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_03', null, MERGE, BLEND(1));stop_all_sounds(); set(layer[mute_bg].visible, false);" />
+
+      <layer name="f2_scene6" type="text"
+             html="Floor 2 - Scene 6"
+             width="80%" height="40" y="340" align="center"
+             css="font-size:16px; color:#fff; text-align:center; line-height:40px; background:#007A33;"
+             onclick="loadscene('scene_04', null, MERGE, BLEND(1)); sound3click();" />
+
+      <layer name="back_btn_f2" type="text"
+             html="Back"
+             width="80%" height="40" align="center"  y="400"
+             css="font-size:16px; color:#007A33; text-align:center; line-height:40px; background:#fff;"
+             onclick="toggleBack();" />
+    </layer>
+
+  </layer>
+
+  <!-- TOGGLE BUTTON -->
+  <layer name="menu_toggle_btn"
+       type="text"
+       html="⬅"
+       align="rightmiddle"
+       x="0"
+       y="0"
+       width="40"
+       height="40"
+       bgcolor="0x007A33"
+       bgalpha="0.8"
+       roundedge="20"
+       css="font-size:20px; text-align:center; line-height:40px; color:#fff;"
+       onclick="toggleMenu();"
+       keep="true"
+       zorder="10000" />
+
+    <layer name="mute_bg"
+       type="container"
+       width="50"
+       height="50"
+       bgcolor="0x007A33"
+       bgalpha="0.0"
+       align="leftbottom"
+       y="100"
+       x="25"
+       keep="true"
+       visible="false"
+       enabled="true"
+    />
+
+   	<!-- a button to pause/play the sound -->
+    <layer name="snd" parent="mute_bg" url="skin/soundonoff.png" keep="true" align="leftbottom" x="10" y="10" alpha="0.25" scale="0.5"
+         zorder="10000"
+	       crop="0|0|50|50"
+         onover="tween(alpha,1);tween(layer[mute_bg].bgalpha,0.7);"
+         onout="tween(alpha,0.25);tween(layer[mute_bg].bgalpha,0.0);"
+	       onclick="stop_all_sounds()"
+	       />
+
+    <action autorun="onstart" type="Javascript"><![CDATA[
+		  <!-- preload the sounds for lower latency when playing them later -->
+		   krpano.preloadsound('https://krpano.com/panos/xmas/ding_dong_merrily_on_high.mp3');
+       ]]></action> 
+
+   <!-- TOGGLE ACTION -->
+   <action name="toggleMenu">
+      if(layer[menu_container].visible == false,
+          set(layer[menu_container].visible, true);
+          tween(layer[menu_container].x, 0, 0.5, easeInOutQuad);
+          if(device.mobile,
+             tween(layer[menu_toggle_btn].x, 250, 0.5, easeInOutQuad);
+                ,
+              tween(layer[menu_toggle_btn].x, 310, 0.5, easeInOutQuad);
+          );
+          set(layer[menu_toggle_btn].html, '➡');
+          trace('Menu Opened');
+           ,
+          tween(layer[menu_container].x, -100%, 0.5, easeInOutQuad);
+          tween(layer[menu_toggle_btn].x, 0, 0.5, easeInOutQuad);
+          set(layer[menu_container].visible, false);
+          set(layer[menu_toggle_btn].html, '⬅');
+          trace('Menu Closed');
+        );
+   </action>
+
+  <!--  ACTIONS  -->
+  <action name="toggleScenes">
+    set(layer[floor_buttons].visible, false);
+    if(%1 == 'floor1',
+      set(layer[floor1_scenes].visible, true);
+      set(layer[menu_title].html, 'Floor 1 Scenes');
+    );
+    if(%1 == 'floor2',
+      set(layer[floor2_scenes].visible, true);
+      set(layer[menu_title].html, 'Floor 2 Scenes');
+    );
+  </action>
+
+  <action name="toggleBack">
+    set(layer[floor_buttons].visible, true);
+    set(layer[floor1_scenes].visible, false);
+    set(layer[floor2_scenes].visible, false);
+    set(layer[menu_title].html, 'Select Floor');
+  </action>
+
+
+    <!-- DYNAMIC PLAY ACTION -->
+    <action name="play_scene_music">                                  
+        set(current_scene_music, %1);                          
+        playsound('bgmusic', get(current_scene_music), false);     
+        set(playing_bgmusic, true);
+        set(layer[snd].crop, 0|0|50|50);
+    </action>
+
+    <!-- GLOBAL TOGGLE -->
+    <action name="toggle_music">
+        if(playing_bgmusic,
+            set(playing_bgmusic, false);
+            set(layer[snd].crop, 0|50|50|50);
+          ,
+            ifnot(current_scene_music == null,
+                playsound('bgmusic', get(current_scene_music), false);
+                set(playing_bgmusic, true);
+                set(layer[snd].crop, 0|0|50|50);
+            );
+        );
+    </action>
+
+     <action name="sound1click">
+        trace("Sound 1 Clicked");
+       set(layer[mute_bg].visible, true);
+        if(sound[s1],
+            destroysound(s1);
+          ,
+            playsound(s1, 'https://krpano.com/panos/xmas/ding_dong_merrily_on_high.mp3', btn1, false, 1.0);
+            set(layer[snd].crop, 0|0|50|50);
+       )
+    </action>
+
+    <action name="sound2click">
+        trace("Sound 2 Clicked");
+        set(layer[mute_bg].visible, true);
+        if(sound[s2],
+            destroysound(s2);
+          ,
+            playsound(s2, 'https://krpano.com/panos/xmas/ding_dong_merrily_on_high.mp3', btn2, false, 1.0);
+            set(layer[snd].crop, 0|0|50|50);
+        );
+    </action>
+
+    <action name="sound3click">
+        trace("Sound 3 Clicked");
+        set(layer[mute_bg].visible, true);
+        if(sound[s3],
+            destroysound(s3);
+          ,
+            playsound(s3, 'https://krpano.com/panos/xmas/ding_dong_merrily_on_high.mp3', btn3, false, 1.0);
+            set(layer[snd].crop, 0|0|50|50);
+        );
+    </action>
+
+    <action name="stop_all_sounds">
+        set(layer[snd].crop, 0|50|50|50);
+        destroysound(s1);
+        destroysound(s2);
+        destroysound(s3);
+        trace('[INFO] All sounds stopped.');
+    </action>
+
+
+</krpano>

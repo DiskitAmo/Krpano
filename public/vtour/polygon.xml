@@ -1,0 +1,29 @@
+<krpano version="1.21" title="Polygon Test">
+
+  <!-- a simple cube pano background so we can see something -->
+  <!-- <image>
+    <sphere url="skin/inmap.png" />
+  </image> -->
+
+  <view hlookat="0" vlookat="0" fov="90" />
+
+  <!-- 🟩 Pentagon polygon hotspot -->
+  <hotspot name="pentagon_highlight"
+           type="polygon"
+           fillcolor="0x00ff00"
+           fillalpha="1.0"
+           bordercolor="0xffffff"
+           borderwidth="4"
+           onover="tween(fillalpha,0.8,0.3);"
+           onout="tween(fillalpha,0.4,0.3);"
+           onclick="showtext('You clicked the pentagon!');">
+
+    <!-- Define the 5 points -->
+    <point ath="-20" atv="0" />
+    <point ath="0" atv="-10" />
+    <point ath="20" atv="0" />
+    <point ath="10" atv="15" />
+    <point ath="-10" atv="15" />
+  </hotspot>
+
+</krpano>
