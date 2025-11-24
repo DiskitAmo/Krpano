@@ -1,230 +1,151 @@
-﻿<krpano version="1.23" title="Virtual Tour">
+﻿<krpano>
 
-	<include url="skin/vtourskin.xml" />
-	<plugin api="gyro" keep="true"
-        url="%VIEWER%/plugins/gyro2.js" 
-        enabled="false"
-        camroll="true"
-        absolute="false"
-        north="0"
-        friction="0.0"
-        touch_mode="full"
-        sensor="1"
-        sensor_mode="1"
-        softstart="0.5"
-        autocalibration="false"
-        desktopsupport="false"
-        onavailable=""
-        onunavailable=""
-        onenable=""
-        ondisable=""
-        ondenied=""
-        />
+	<include url="%VIEWER%/plugins/webvr.xml" devices="mobilevr" />
+	<include url="%VIEWER%/plugins/iphone_fullscreen_swipe.xml" />
+	<!-- <include url="%VIEWER%/plugins/controls3d.xml" /> -->
+	<include url="%VIEWER%/plugins/drag3d.xml" />
+	
+	<plugin api="threejs" keep="true" url="%VIEWER%/plugins/threejs_krpanoplugin.js" />
 
-	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
-	<skin_settings maps="false"
-	               maps_type="openstreetmaps"
-	               maps_bing_api_key=""
-	               maps_google_api_key=""
-	               maps_zoombuttons="false"
-	               maps_loadonfirstuse="false"
-	               gyro="true"
-	               gyro_keeplookingdirection="false"
-	               webvr="false"
-	               webvr_keeplookingdirection="true"
-	               webvr_prev_next_hotspots="true"
-	               autotour="false"
-	               littleplanetintro="false"
-	               followmousecontrol="false"
-	               title="true"
-	               thumbs="true"
-	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
-	               thumbs_opened="false"
-	               thumbs_text="false"
-	               thumbs_dragging="true"
-	               thumbs_onhoverscrolling="false"
-	               thumbs_scrollbuttons="false"
-	               thumbs_scrollindicator="false"
-	               thumbs_loop="false"
-	               tooltips_buttons="false"
-	               tooltips_thumbs="false"
-	               tooltips_hotspots="false"
-	               tooltips_mapspots="false"
-	               deeplinking="false"
-	               loadscene_flags="MERGE"
-	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
-	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
-	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
-	               loadingtext=""
-	               layout_width="100%"
-	               layout_maxwidth="814"
-	               controlbar_width="-24"
-	               controlbar_height="40"
-	               controlbar_offset="20"
-	               controlbar_offset_closed="-40"
-	               controlbar_overlap.no-fractionalscaling="10"
-	               controlbar_overlap.fractionalscaling="0"
-	               design_skin_images="vtourskin.png"
-	               design_bgcolor="0x2D3E50"
-	               design_bgalpha="0.8"
-	               design_bgborder="0"
-	               design_bgroundedge="1"
-	               design_bgshadow="0 4 10 0x000000 0.3"
-	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
-	               design_thumbborder_padding="2"
-	               design_thumbborder_bgroundedge="0"
-	               design_text_css="color:#FFFFFF; font-family:Arial;"
-	               design_text_shadow="1"
-	               />
+	<!-- use a reduced depthbuffer range for better rendering accuracy -->
+	<display depthrange="5,200000" />
+	<threejs
+		shadowmap="pcf"
+		ambientlight="1.0"
+		/>
 
-	<!--
-	    For an alternative skin design either change the <skin_settings> values 
-	    from above or optionally include one of the predefined designs from below.
-	-->
-	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
-	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
-	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
-	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
-	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
-	<!-- <include url="skin/vtourskin_design_black.xml"       /> 
-	 onover="tween(scale,0.7,0.2);"
-         onout="tween(scale,0.5,0.2);" 
-	-->
+	<webvr postracking="true" />
+	<control collision="true" groundcollision="true" usevrfloorlevel="true" />
+	<control
+       movetolimit="true"
+       movetolimitx="-200"
+       movetolimity="-200"
+       movetolimitz="-400"
+      />
 
-	<!-- Common style for buttons -->
-    <!-- <style name="button_style"
-         type="container"
-         width="50"
-         height="50"
-         bgcolor="0x0AA94D"
-         bgalpha="0.9"
-         roundedge="25"
-         padding="10"
-         handcursor="true"
-		 keep="true"
-		 zorder="99999999" 
-		 /> -->
+	<!-- add a rotating light -->
+	<!-- <hotspot name="light" keep="true"
+		type="threejslight"
+		mode="sun"
+		intensity="3.0"
+		color="0xFFFFFF"
+		ath="0" atv="-30"
+		onloaded="asyncloop(loaded, ath=timertick*0.02);"
+		/> -->
+	<!-- show shadows using a virtual floor and an invisible light -->
+	<threejs shadowfloor="true" shadowfloorlevel="148" shadowflooralpha="0.15" />
+	<hotspot name="floorshadowlight" type="threejslight" mode="sun" intensity="0.0" castshadow="true" shadowmapres="1024" ath="0" atv="-90" keep="true" />
 
-    <!-- 
-	<layer name="button_bar"
-	   type="container"
-       keep="true"
-	   capture="true"
-	   enabled="true"
-       align="leftmiddle"
-	   bgcolor="0x000000"
-       bgalpha="0.7"
-	   roundedge="10"
-       padding="10"
-       x="80"
-       width="80"
-       height="400"
-	   zorder="99999999" 
-	   visible="false"
-	   y="0"
-	   >
+	<hotspot name="women" keep="true"
+		type="threejs"
+		url="../woman.glb"
+		scale="0.005"
+		depth="0"
+		tx="20" ty="0" tz="0"
+		onloaded="centermodel();"
+		ondown="drag3d();"
+		/>
 
-	  <layer name="btn1"   enabled="true" style="button_style" y="0" onclick="trace('Button 1 clicked - opening iframe');">
-        <layer name="btn1_icon" url="skin/book.png" align="center" width="40" height="40" />
-      </layer>
+	<!-- the startup view -->
+	<view hlookat="0" vlookat="0" fov.normal="95" fov.mobile="105" tx="0" ty="0" tz="-160" />
 
-    
-       <layer name="btn2"   enabled="true" style="button_style" y="90" onclick="trace('Button 2 clicked - opening iframe');">
-         <layer name="btn2_icon" url="skin/gallery.png" align="center" width="40" height="40" />
-       </layer>
+	<!-- some example scenes -->
+	<scene name="s1" autoload="true">
+		<threejs envmapurl="preview" />
+		<image objectsize="infinity">
+          <preview url="panos/07.tiles/preview.jpg"/>
+          <cube url="panos/07.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/>
+        </image>
+	</scene>
 
-       <layer name="btn3" style="button_style" y="180" onclick="open_image('images/photo1.jpg');">
-         <layer name="btn3_icon" url="skin/avatar.png" align="center" width="40" height="40" />
-       </layer>
+	<scene name="s2">
+		<threejs envmapurl="preview" />
+		<image objectsize="infinity">
+            <preview url="panos/09.tiles/preview.jpg"/>
+            <cube url="panos/09.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/>
+        </image>
+	</scene>
 
-      
-       <layer name="btn4" style="button_style" y="270" onclick="open_iframe('https://www.youtube.com/embed/M7lc1UVf-VE');">
-         <layer name="btn4_icon" url="skin/info.png" align="center" width="40" height="40" />
-       </layer>
-
-      
-       <layer name="btn5" style="button_style" y="360" onclick="open_image('images/photo2.jpg');">
-         <layer name="btn5_icon" url="skin/message.png" align="center" width="40" height="40" />
-       </layer>
-    </layer> 
-	 <action name="open_iframe">
-    addlayer(iframe_layer);
-    set(layer[iframe_layer].type, text);
-    set(layer[iframe_layer].align, center);
-    set(layer[iframe_layer].bgcolor, 0x000000);
-    set(layer[iframe_layer].bgalpha, 0.8);
-    set(layer[iframe_layer].zorder, 10000);
-    set(layer[iframe_layer].visible, true);
-    set(layer[iframe_layer].html, escape('<iframe src="%1" width="90%" height="80%" style="border:none;border-radius:10px;"></iframe>'));
-    tween(layer[iframe_layer].alpha, 1, 0.5, easeInOutQuad);
-  </action> 
-
-  <action name="open_image">
-  addlayer(image_layer);
-  set(layer[image_layer].url, '%1');
-  set(layer[image_layer].align, center);
-  set(layer[image_layer].scale, 0);
-  set(layer[image_layer].zorder, 10000);
-  tween(layer[image_layer].scale, 1, 0.3, easeOutBack);
-  </action> 
-  -->
-
-   <!-- button to toggle gyro -->
-    <layer name="gyro_btn" type="text"
-           html="Enable Gyro"
-           align="rightbottom" x="10" y="10"
-           width="120" height="40"
-           bgcolor="0x007A33" bgalpha="0.8"
-           css="color:#fff; text-align:center; line-height:40px; border-radius:6px;"
-           onclick="toggle_gyro();"
-           />
-
-    <!-- action to toggle -->
-    <action name="toggle_gyro">
-        if(plugin[gyro2].enabled,
-            set(plugin[gyro2].enabled, false);
-            set(layer[gyro_btn].html, 'Enable Gyro');
-          ,
-            set(plugin[gyro2].enabled, true);
-            set(layer[gyro_btn].html, 'Disable Gyro');
-        );
-    </action>
-
-	  <!-- auto-enable gyro on mobile -->
-    <action name="startup" autorun="onstart">
-        if(device.mobile, delayedcall(0.5, set(plugin[gyro2].enabled,true); set(layer[gyro_btn].html,'Disable Gyro');));
-    </action>
-
-	<scene name="scene_005" title="05" onstart="" thumburl="panos/005.tiles/thumb.jpg" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
-
-		<control bouncinglimits="calc:image.cube ? true : false" />
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
-		<preview url="panos/005.tiles/preview.jpg" />
-		<image>
-			<cube url="panos/005.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+	 <scene name="s3">
+		 <threejs envmapurl="preview" />
+		<view fovmin="20" fovmax="150" />
+		 <image objectsize="infinity">
+			<sphere url="skin/sky.jpg" />
+			<!-- <cube url="panos/015.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840"/> -->
 		</image>
+
+		<hotspot name="light"
+		type="threejslight"
+		mode="sun"
+		ath="180.0"
+		atv="-60.0"
+		colortemperature="6500"
+		intensity="1.0"
+		castshadow="true"
+		shadowmapres="2048"
+		/>
+
+	   <hotspot name="soldier"
+		type="threejs"
+		url="../landscape.glb"
+		 depth="0"
+		 scale="8.0"
+		 hittest="true"
+		 castshadow="true"
+		 receiveshadow="true"
+		 ry="180"
+         tx="0"
+         ty="170"
+         tz="300"   
+		 visible="true"
+         enabled="true"
+         capture="true"
+		/>
 
 	</scene>
 
-	<scene name="scene_06" title="06" onstart="" thumburl="panos/06.tiles/thumb.jpg" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
-		<control bouncinglimits="calc:image.cube ? true : false" />
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
-		<preview url="panos/06.tiles/preview.jpg" />
+	<!-- <scene name="s4">
+		<threejs envmapurl="skin/envmap1.jpg" />
+
 		<image>
-			<cube url="panos/06.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+			<sphere   url="skin/habitacio_01.jpg" />
+			<depthmap url="skin/habitacio_01_depthmap.jpg" enabled="true" mapmode="1" scale="0.5" offset="0.293" curve="1.0" hittest="true" />
 		</image>
-	</scene>
+	</scene> -->
 
-	<scene name="scene_007" title="07" onstart="" thumburl="panos/007.tiles/thumb.jpg" lat="24.68763888" lng="46.68366667" alt="628.80" heading="0.0">
-		
-		<control bouncinglimits="calc:image.cube ? true : false" />
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
-		<preview url="panos/007.tiles/preview.jpg" />
-		<image>
-			<cube url="panos/007.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
-		</image>
+	<!-- thumbs for scene switching -->
+	<settings loadflags="MERGE|KEEPMOVING" blending="SLIDEBLEND(1.5)" />
 
-	</scene>
+	<style name="thumb" bgborder="3 0xFFFFFF 1" bgshadow="0 0 1 0 0x000000 1.0 inset,0 3 4 0x000000 0.5" width="relink:stagewidth:stagewidth LT 550 ? 40 : 60" height="relink:stagewidth:stagewidth LT 550 ? 40 : 60" />
 
+	<layer keep="true" type="container" width="100%" align="bottom" y="20">
+		<layer type="scrollarea" align="top" direction="h" flowchildren="h" childflowspacing="16" childmargin="16" onresize="parentobject.height=height;">
+			<!-- <layer style="thumb" type="text" text="X" textalign="center" bgcolor="0xAAAAAA" onclick="remove_envmap();" /> -->
+			<layer style="thumb" url="panos/07.tiles/thumb.jpg" onclick="loadscene(s1, null, get(settings.loadflags), get(settings.blending));" />
+			<layer style="thumb" url="panos/09.tiles/preview.jpg" onclick="loadscene(s2, null, get(settings.loadflags), get(settings.blending));" />
+			<layer style="thumb" url="skin/texture_preview.jpg" onclick="loadscene(s3, null, get(settings.loadflags), get(settings.blending));" />
+			<!-- <layer style="thumb" url="skin/thumb.jpg" onclick="loadscene(s4, null, get(settings.loadflags), get(settings.blending));" /> -->
+		</layer>
+	</layer>
+
+	<!-- remove the environment by reloading the current image and setting envmapurl to null -->
+	<action name="remove_envmap">
+		image.reset(copy);
+		loadpanoimage(get(settings.loadflags), get(settings.blending));
+		threejs.envmapurl=null;
+	</action>
+
+	<layer name="info" keep="true"
+		type="text"
+		text="data:infotext"
+		width="320"
+		bg="false"
+		css="color:#FFFFFF; font-size:14px; text-align:center; line-height:18px;"
+		txtshadow="0 1 4 0x000000 1.0"
+		align="top"
+		y="100"
+		onclick="set(enabled,false); tween(alpha,0,0.5,default,remove());"
+		onloaded="delayedcall(12, onclick() );"
+		/>
 
 </krpano>

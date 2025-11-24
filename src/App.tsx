@@ -13,11 +13,11 @@ import img4 from "./assets/images/015.jpg";
 import img5 from "./assets/images/depth-1.jpg";
 
 const cardData = [
-  // {
-  //   image: img1,
-  //   title: "Greenfield Community",
-  //   page: 1,
-  // },
+  {
+    image: img1,
+    title: "Drag 3d model inside panorama",
+    page: 1,
+  },
   {
     image: img2,
     title: "Stunning Cityscape",
